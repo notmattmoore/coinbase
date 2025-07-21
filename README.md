@@ -2,8 +2,7 @@
 
 A Python authentication library and API for CoinBase, geared towards automated
 trading. See also the
-[crypto-trading-bot](https://github.com/notmattmoore/crypto-trading-bot)
-repository
+[crypto-trading](https://github.com/notmattmoore/crypto-trading) repository
 
 The authentication class is `CoinBaseAuth`, which extends `AuthBase` from the
 [`requests.auth`](https://requests.readthedocs.io/en/latest/user/authentication/)
