@@ -726,7 +726,6 @@ class CoinBase:   # {{{1
         )
         reply = locals().get("reply", {})
         order_id = None
-        if i == self.api_retry - 1: from IPython import embed; embed() # XXX
 
     return order_id, reply
   #--------------------------------------------------------------------------}}}
@@ -1079,6 +1078,7 @@ class CoinBase:   # {{{1
       { $order_id:
           {
             "active"     : True or False,
+            "cancelled"  : True or False,
             "order_info" : $order_info,
             "replies"    : $replies,
           },
@@ -1093,6 +1093,9 @@ class CoinBase:   # {{{1
     - the cancellation request is successful,
     - $order_info["status"] != "open",
     - the exchange cannot find an order with $order_id.
+    It is possible to have a non-active order that has also failed to be cancelled
+    (e.g. if it is not open).
+
     Should only raise an exception for user error.
 
     A successful cancellation request generates a reply of the form
@@ -1123,11 +1126,12 @@ class CoinBase:   # {{{1
       )
       reply = locals().get("reply", {})
 
-    ret = {o_id: {"active": True, "order_info": {}, "replies": []} for o_id in order_ids}
+    ret = {o_id: {"active": True, "cancelled": False, "order_info": {}, "replies": []} for o_id in order_ids}
     for res in reply.get("results", []):
       o_id = res["order_id"]
       if res["success"] == True:  # if the cancellation request was successful
         ret[o_id]["active"] = False
+        ret[o_id]["cancelled"] = True
       ret[o_id]["replies"].append(res)
 
     for o_id in ret.keys():
