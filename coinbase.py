@@ -356,7 +356,7 @@ class CoinBase:   # {{{1
       )
       if len(R_loop) == 0:
         break
-      R = pd.concat([R, R_loop], ignore_index=True)
+      R = pd.concat([R, R_loop], ignore_index=True) if not R.empty else R_loop
       if verbose:
         print_dyn_line("... at", R_loop.iloc[[0]].to_string(header=False, index=False))
 
