@@ -421,7 +421,7 @@ class CoinBase:   # {{{1
     except Exception as err:
       print(
         f"ERROR {datetime_iso()}, {func_name()}: failed to read candles due to "
-        f"exception  {err}.\nReceived reply {locals().get('reply', '(no reply)')}."
+        f"exception {err}.\nReceived reply {locals().get('reply', '(no reply)')}."
       )
       candles = []
 
